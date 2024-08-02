@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "certification")
-@Table(name = "certification")
-public class CertificationEntity {
+@Entity(name = "user")
+@Table(name = "user")
+public class UserEntity {
 
     @Id
-    private String user_id;
+    private String userId;
+    private String password;
     private String email;
-    private String certificationNumber;
+    private String type;
+    private String role;
 }

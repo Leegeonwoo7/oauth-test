@@ -1,2 +1,10 @@
-package com.ouath.repository;public interface CertificationRepository {
+package com.ouath.repository;
+
+import com.ouath.entity.CertificationEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CertificationRepository extends JpaRepository<CertificationEntity, String> {
+
 }
