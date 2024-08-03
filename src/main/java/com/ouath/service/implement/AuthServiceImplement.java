@@ -1,9 +1,11 @@
 package com.ouath.service.implement;
 
 import com.ouath.common.CertificationNumber;
+import com.ouath.dto.request.auth.CheckCertificationRequestDto;
 import com.ouath.dto.request.auth.EmailCertificationRequestDto;
 import com.ouath.dto.request.auth.IdCheckRequestDto;
 import com.ouath.dto.response.ResponseDto;
+import com.ouath.dto.response.auth.CheckCertificationResponseDto;
 import com.ouath.dto.response.auth.EmailCertificationResponseDto;
 import com.ouath.dto.response.auth.IdCheckResponseDto;
 import com.ouath.entity.CertificationEntity;
@@ -69,5 +71,34 @@ public class AuthServiceImplement implements AuthService {
         }
 
         return EmailCertificationResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super CheckCertificationResponseDto> checkCertification(CheckCertificationRequestDto dto) {
+        try {
+
+            String userId = dto.getId();
+            String email = dto.getEmail();
+            String certificationNumber = dto.getCertificationNumber();
+
+            CertificationEntity certificationEntity = certificationRepository.findByUserId(userId);
+            if (certificationEntity == null) {
+                return CheckCertificationResponseDto.certificationFail();
+            }
+
+            boolean isMatched =
+                    certificationEntity.getEmail().equals(email)
+                    && certificationEntity.getCertificationNumber().equals(certificationNumber);
+
+            if (!isMatched) {
+                return CheckCertificationResponseDto.certificationFail();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return CheckCertificationResponseDto.success();
     }
 }

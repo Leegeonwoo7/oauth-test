@@ -1,7 +1,9 @@
 package com.ouath.controller;
 
+import com.ouath.dto.request.auth.CheckCertificationRequestDto;
 import com.ouath.dto.request.auth.EmailCertificationRequestDto;
 import com.ouath.dto.request.auth.IdCheckRequestDto;
+import com.ouath.dto.response.auth.CheckCertificationResponseDto;
 import com.ouath.dto.response.auth.EmailCertificationResponseDto;
 import com.ouath.dto.response.auth.IdCheckResponseDto;
 import com.ouath.service.AuthService;
@@ -32,5 +34,12 @@ public class AuthController {
             @RequestBody @Valid EmailCertificationRequestDto requestBody
             ) {
         return authService.emailCertification(requestBody);
+    }
+
+    @PostMapping("/check-certification")
+    public ResponseEntity<? super CheckCertificationResponseDto> certificationCheck(
+            @RequestBody @Valid CheckCertificationRequestDto requestBody
+            ) {
+        return authService.checkCertification(requestBody);
     }
 }

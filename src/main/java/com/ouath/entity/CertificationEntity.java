@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class CertificationEntity {
 
     @Id
-    private String user_id;
+    private String userId;
     private String email;
     private String certificationNumber;
 }
