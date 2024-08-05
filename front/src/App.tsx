@@ -1,14 +1,18 @@
 import React, {ChangeEvent, useState} from 'react';
 import './App.css';
 import InputBox from "./components/inputBox";
+import {Route, Routes} from "react-router-dom";
+import SignUp from "./views/Authentication/SignUp";
 
 function App() {
 
     return (
     <>
-        <div className='text-link-lg full-width'>회원가입</div>
-        <div className='kakao-sign-in-button'></div>
-        <div className='naver-sign-in-button'></div>
+        <Routes>
+            <Route path='/auth'>
+                <Route path='sign-up' element={<SignUp />} />
+            </Route>
+        </Routes>
     </>
   );
 }
