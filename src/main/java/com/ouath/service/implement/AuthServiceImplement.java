@@ -1,18 +1,13 @@
 package com.ouath.service.implement;
 
 import com.ouath.common.CertificationNumber;
-import com.ouath.dto.request.auth.CheckCertificationRequestDto;
-import com.ouath.dto.request.auth.EmailCertificationRequestDto;
-import com.ouath.dto.request.auth.IdCheckRequestDto;
-import com.ouath.dto.request.auth.SignUpRequestDto;
+import com.ouath.dto.request.auth.*;
 import com.ouath.dto.response.ResponseDto;
-import com.ouath.dto.response.auth.CheckCertificationResponseDto;
-import com.ouath.dto.response.auth.EmailCertificationResponseDto;
-import com.ouath.dto.response.auth.IdCheckResponseDto;
-import com.ouath.dto.response.auth.SignUpResponseDto;
+import com.ouath.dto.response.auth.*;
 import com.ouath.entity.CertificationEntity;
 import com.ouath.entity.UserEntity;
 import com.ouath.provider.EmailProvider;
+import com.ouath.provider.JwtProvider;
 import com.ouath.repository.CertificationRepository;
 import com.ouath.repository.UserRepository;
 import com.ouath.service.AuthService;
@@ -29,6 +24,7 @@ public class AuthServiceImplement implements AuthService {
     private final UserRepository userRepository;
     private final CertificationRepository certificationRepository;
 
+    private final JwtProvider jwtProvider;
     private final EmailProvider emailProvider;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -146,5 +142,36 @@ public class AuthServiceImplement implements AuthService {
         }
 
         return SignUpResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super SignInResponseDto> singIn(SignInRequestDto dto) {
+
+        String token = null;
+
+        try {
+
+            String userId = dto.getId();
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null) {
+                return SignInResponseDto.signInFail();
+            }
+
+            String password = dto.getPassword();
+            String encodePassword = userEntity.getPassword();
+            boolean isMatched = passwordEncoder.matches(password, encodePassword);
+            if (!isMatched) {
+                return SignInResponseDto.signInFail();
+            }
+
+            token = jwtProvider.create(userId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        //이 토큰은 클라이언트에서 어떻게 받아 저장하는지?
+        return SignInResponseDto.success(token);
     }
 }

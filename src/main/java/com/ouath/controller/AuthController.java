@@ -1,13 +1,7 @@
 package com.ouath.controller;
 
-import com.ouath.dto.request.auth.CheckCertificationRequestDto;
-import com.ouath.dto.request.auth.EmailCertificationRequestDto;
-import com.ouath.dto.request.auth.IdCheckRequestDto;
-import com.ouath.dto.request.auth.SignUpRequestDto;
-import com.ouath.dto.response.auth.CheckCertificationResponseDto;
-import com.ouath.dto.response.auth.EmailCertificationResponseDto;
-import com.ouath.dto.response.auth.IdCheckResponseDto;
-import com.ouath.dto.response.auth.SignUpResponseDto;
+import com.ouath.dto.request.auth.*;
+import com.ouath.dto.response.auth.*;
 import com.ouath.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +44,14 @@ public class AuthController {
             @RequestBody @Valid SignUpRequestDto requestBody
     ) {
         ResponseEntity<? super SignUpResponseDto> response = authService.singUp(requestBody);
+        return response;
+    }
+
+    @PostMapping("/sign-in")
+    public ResponseEntity<? super SignInResponseDto> signIn(
+            @RequestBody @Valid SignInRequestDto requestBody
+            ) {
+        ResponseEntity<? super SignInResponseDto> response = authService.singIn(requestBody);
         return response;
 
     }

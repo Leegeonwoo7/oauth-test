@@ -1,13 +1,7 @@
 package com.ouath.service;
 
-import com.ouath.dto.request.auth.CheckCertificationRequestDto;
-import com.ouath.dto.request.auth.EmailCertificationRequestDto;
-import com.ouath.dto.request.auth.IdCheckRequestDto;
-import com.ouath.dto.request.auth.SignUpRequestDto;
-import com.ouath.dto.response.auth.CheckCertificationResponseDto;
-import com.ouath.dto.response.auth.EmailCertificationResponseDto;
-import com.ouath.dto.response.auth.IdCheckResponseDto;
-import com.ouath.dto.response.auth.SignUpResponseDto;
+import com.ouath.dto.request.auth.*;
+import com.ouath.dto.response.auth.*;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthService {
@@ -19,4 +13,6 @@ public interface AuthService {
     ResponseEntity<? super CheckCertificationResponseDto> checkCertification(CheckCertificationRequestDto dto);
 
     ResponseEntity<? super SignUpResponseDto> singUp(SignUpRequestDto dto);
+
+    ResponseEntity<? super SignInResponseDto> singIn(SignInRequestDto dto);
 }
