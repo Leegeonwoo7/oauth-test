@@ -2,8 +2,13 @@ import IdCheckRequestDto from "./request/auth/id-check.request.dto";
 import axios, {AxiosResponse} from "axios";
 import IdCheckResponseDto from "./response/auth/id-check.response.dto";
 import {EmailCertificationResponseDto, ResponseDto} from "./response";
-import {CheckCertificationRequestDto, EmailCertificationRequestDto, SignUpRequestDto} from "./request/auth";
-import {CheckCertificationResponseDto, SignUpResponseDto} from "./response/auth";
+import {
+    CheckCertificationRequestDto,
+    EmailCertificationRequestDto,
+    SignInRequestDto,
+    SignUpRequestDto
+} from "./request/auth";
+import {CheckCertificationResponseDto, SignInInResponseDto, SignUpResponseDto} from "./response/auth";
 
 const responseHandler = <T> (response: AxiosResponse<any, any>) => {
     const responseBody: T = response.data;
@@ -19,6 +24,7 @@ const errorHandler = (error: any) => {
 const DOMAIN = 'http://localhost:8080';
 const API_DOMAIN = `${DOMAIN}/api/v1`;
 
+const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;
 const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;
 const ID_CHECK_URL = () => `${API_DOMAIN}/auth/id-check`;
 const EMAIL_CERTIFICATION_URL = () => `${API_DOMAIN}/auth/email-certification`;
@@ -49,5 +55,12 @@ export const checkCertificationRequest = async (requestBody: CheckCertificationR
     const result = await axios.post(CHECK_CERTIFICATION_URL(), requestBody)
         .then(responseHandler<CheckCertificationResponseDto>)
         .catch(errorHandler);
+    return result;
+}
+
+export const signInRequest = async (requestBody: SignInRequestDto) => {
+    const result = await axios.post(SIGN_IN_URL(), requestBody)
+        .then(responseHandler<SignInInResponseDto>)
+        .catch(errorHandler)
     return result;
 }
