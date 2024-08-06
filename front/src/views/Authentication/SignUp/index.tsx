@@ -3,7 +3,13 @@ import InputBox from "../../../components/inputBox";
 import './style.css';
 import {useNavigate} from "react-router-dom";
 import IdCheckRequestDto from "../../../apis/request/auth/id-check.request.dto";
-import {checkCertificationRequest, emailCertificationRequest, idCheckRequest, signUpRequest} from "../../../apis";
+import {
+    checkCertificationRequest,
+    emailCertificationRequest,
+    idCheckRequest,
+    signUpRequest,
+    SNS_SIGN_IN_URL
+} from "../../../apis";
 import IdCheckResponseDto from "../../../apis/response/auth/id-check.response.dto";
 import {EmailCertificationResponseDto, ResponseDto} from "../../../apis/response";
 import {ResponseCode} from "../../../types/enums";
@@ -192,6 +198,10 @@ export default function SignUp() {
       navigate('/auth/sign-in')
     };
 
+    const onSnsSignInButtonClickHandler = (type: 'kakao' | 'naver') => {
+        window.location.href = SNS_SIGN_IN_URL(type);
+    }
+
     const onIdButtonClickHandler = () => {
         if (!id) return;
         const requestBody: IdCheckRequestDto = {id};
@@ -260,8 +270,8 @@ export default function SignUp() {
                         <div className='sign-up-content-sns-sign-in-box'>
                             <div className='sign-up-content-sns-sign-in-title'>{'SNS 회원가입'}</div>
                             <div className='sign-up-content-sns-sign-in-button-box'>
-                                <div className='kakao-sign-in-button'></div>
-                                <div className='naver-sign-in-button'></div>
+                                <div className='kakao-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('kakao')}></div>
+                                <div className='naver-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('naver')}></div>
                             </div>
                         </div>
                         <div className='sign-up-content-divider'></div>
